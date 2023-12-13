@@ -18,7 +18,8 @@ fun main() {
         val size: Long
             get() = from.size
 
-        fun splitAfter(size: Long) = RangeMapping(from.first..<from.first + size, to.first..<to.first + size) to
+        fun splitAfter(size: Long) =
+            RangeMapping(from.first..<from.first + size, to.first..<to.first + size) to
             RangeMapping(from.first + size..from.last, to.first + size..to.last)
 
         fun getMappedValue(value: Long) = value + (to.first - from.first)

@@ -14,11 +14,7 @@ fun main() {
     
     fun part1(input: List<String>): Int {
         var res = 0
-        val cubesMaxAmount = mapOf(
-            "red" to 12,
-            "green" to 13,
-            "blue" to 14,
-        )
+        val cubesMaxAmount = mapOf("red" to 12, "green" to 13, "blue" to 14)
         
         forEachGame(input) { gameId, sets ->
             if (sets.all { (amount, color) ->

@@ -1,16 +1,3 @@
-val cardOrder = listOf('A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2')
-val cardOrderWithJoker = listOf('A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J')
-
-fun Collection<Char>.countLetters(joker: Boolean) = HashMap<Char, Int>().also { map ->
-    this.forEach { map[it] = (map[it] ?: 0) + 1 }
-    if (joker) {
-        val jCards = map.remove('J') ?: 0
-        map.maxByOrNull { map[it.key] ?: 0 }?.let {
-            map[it.key] = it.value + jCards
-        }
-    }
-}
-
 fun <K, V> Map<K, V>.findKeys(where: (V) -> Boolean) = filterValues(where).keys
 
 enum class CamelHandType(
@@ -29,27 +16,40 @@ enum class CamelHandType(
     HIGH_CARD(1, { true })
 }
 
-fun Map<Char, Int>.getCamelType(): CamelHandType =
-    CamelHandType.entries.find { it.challenge(this) } ?: CamelHandType.HIGH_CARD
-
-data class CamelHand(val cards: List<Char>, val bet: Int, val joker: Boolean) : Comparable<CamelHand> {
-    private val order: List<Char>
-        get() = if (joker) cardOrderWithJoker else cardOrder
-
-    override fun compareTo(other: CamelHand): Int {
-        val thisType = cards.countLetters(joker).getCamelType()
-        val otherType = other.cards.countLetters(joker).getCamelType()
-
-        if (thisType.priority != otherType.priority) {
-            return thisType.priority - otherType.priority
-        }
-        return this.cards.zip(other.cards)
-            .map { order.indexOf(it.second) - order.indexOf(it.first) }
-            .find { it != 0 } ?: 0
-    }
-}
-
 fun main() {
+    val cardOrder = listOf('A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2')
+    val cardOrderWithJoker = listOf('A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J')
+
+    fun Collection<Char>.countLetters(joker: Boolean) = HashMap<Char, Int>().also { map ->
+        this.forEach { map[it] = (map[it] ?: 0) + 1 }
+        if (joker) {
+            val jCards = map.remove('J') ?: 0
+            map.maxByOrNull { map[it.key] ?: 0 }?.let {
+                map[it.key] = it.value + jCards
+            }
+        }
+    }
+
+    fun Map<Char, Int>.getCamelType(): CamelHandType =
+        CamelHandType.entries.find { it.challenge(this) } ?: CamelHandType.HIGH_CARD
+
+    data class CamelHand(val cards: List<Char>, val bet: Int, val joker: Boolean) : Comparable<CamelHand> {
+        private val order: List<Char>
+            get() = if (joker) cardOrderWithJoker else cardOrder
+
+        override fun compareTo(other: CamelHand): Int {
+            val thisType = cards.countLetters(joker).getCamelType()
+            val otherType = other.cards.countLetters(joker).getCamelType()
+
+            if (thisType.priority != otherType.priority) {
+                return thisType.priority - otherType.priority
+            }
+            return this.cards.zip(other.cards)
+                .map { order.indexOf(it.second) - order.indexOf(it.first) }
+                .find { it != 0 } ?: 0
+        }
+    }
+
     fun parseInput(input: List<String>, joker: Boolean): List<CamelHand> = input.map {
         CamelHand(it.substring(0..<5).toList(), it.substring(6).toInt(), joker)
     }

@@ -1,20 +1,19 @@
-val digits = mapOf(
-    "zero" to "z0o",
-    "one" to "o1e",
-    "two" to "t2o",
-    "three" to "t3e",
-    "four" to "f4r",
-    "five" to "f5e",
-    "six" to "s6x",
-    "seven" to "s7n",
-    "eight" to "e8t",
-    "nine" to "n9e",
-)
-
 fun main() {
-    fun addStringDigits(line: String): String = digits.entries.fold(line) { it, entry ->
-        it.replace(entry.key, entry.value)
-    }
+    val digits = mapOf(
+        "zero" to "z0o",
+        "one" to "o1e",
+        "two" to "t2o",
+        "three" to "t3e",
+        "four" to "f4r",
+        "five" to "f5e",
+        "six" to "s6x",
+        "seven" to "s7n",
+        "eight" to "e8t",
+        "nine" to "n9e",
+    )
+
+    fun addStringDigits(line: String): String =
+        digits.entries.fold(line) { it, entry -> it.replace(entry.key, entry.value) }
 
     fun getCalibrationValue(line: String): Int = line
         .filter { it in '0'..'9' }

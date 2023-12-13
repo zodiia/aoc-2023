@@ -12,13 +12,11 @@ fun main() {
         return second - first + 1
     }
 
-    fun parsePart1Input(input: List<String>) = input.map { line ->
-        Regex("\\d+").findAll(line).map { it.value.toDouble() }
-    }.let { it[0].zip(it[1]) }
+    fun parsePart1Input(input: List<String>) =
+        input.map { line -> Regex("\\d+").findAll(line).map { it.value.toDouble() } }.let { it[0].zip(it[1]) }
 
-    fun parsePart2Input(input: List<String>) = input.map { line ->
-        Regex("\\d+").find(line.replace(" ", ""))?.value?.toDouble() ?: 0.0
-    }
+    fun parsePart2Input(input: List<String>) =
+        input.map { line -> Regex("\\d+").find(line.replace(" ", ""))?.value?.toDouble() ?: 0.0 }
 
     fun part1(input: List<String>) = parsePart1Input(input)
         .map { getWinCases(it.first, it.second) }

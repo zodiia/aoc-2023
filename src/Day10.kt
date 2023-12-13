@@ -54,6 +54,8 @@ fun main() {
         }
     }
 
+    // Note: part 2 doesn't work. While I do understand how its logic works, I do not get the possible optimizations
+    // that would let me implement it in less than a few hours. Probably won't fix it, unless I get back to it some time.
     fun day10(input: List<String>) = parseInput(input).let { map ->
         val start = findStart(map)
         val traversed = map.map { line -> line.map { false }.toMutableList() }

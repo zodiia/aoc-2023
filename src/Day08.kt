@@ -55,9 +55,8 @@ fun main() {
 
     fun part1(input: List<String>) = runPath(parseInput(input), "AAA", 3)
 
-    fun part2(input: List<String>) = parseInput(input).let { map ->
-        runPaths(map, map.directions.keys.filter { it.endsWith('A') })
-    }
+    fun part2(input: List<String>) =
+        parseInput(input).let { map -> runPaths(map, map.directions.keys.filter { it.endsWith('A') }) }
 
     // test if implementation meets criteria from the description, like:
     val testInput1 = readInput("Day08_test1")

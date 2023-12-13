@@ -11,14 +11,14 @@ fun main() {
         }
     }
 
-    fun part1(input: List<String>) = parseCardPacks(input).sumOf { sets ->
-        score(sets[0].count { it in sets[1] })
-    }
+    fun part1(input: List<String>) =
+        parseCardPacks(input).sumOf { sets -> score(sets[0].count { it in sets[1] }) }
 
     fun part2(input: List<String>) = parseCardPacks(input)
         .map { sets -> sets[0].count { it in sets[1] } }
         .let { packs ->
             val count = HashMap<Int, Int>()
+
             packs.forEachIndexed { idx, pack ->
                 repeat(count.getOrDefault(idx, 1)) {
                     repeat(pack) { count[idx + it + 1] = count.getOrDefault(idx + it + 1, 1) + 1 }
